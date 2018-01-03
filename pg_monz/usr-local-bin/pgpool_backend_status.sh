@@ -30,7 +30,12 @@ case "$APP_NAME" in
 							BACKENDSTATE=`echo $backendrecord | awk -F, '{print $4}'`
 							BACKENDWEIGHT=`echo $backendrecord | awk -F, '{print $5}'`
 							BACKENDROLE=`echo $backendrecord | awk -F, '{print $6}'`
-							echo -e "\"$HOST_NAME\" pgpool.backend.status[${BACKEND}] $TIME $BACKENDSTATE"
+							if [[ $BACKENDSTATE == "up" ]]; then
+								BACKENDSTATENUM=2
+							else
+								BACKENDSTATENUM=99
+							fi
+							echo -e "\"$HOST_NAME\" pgpool.backend.status[${BACKEND}] $TIME $BACKENDSTATENUM"
 							echo -e "\"$HOST_NAME\" pgpool.backend.weight[${BACKEND}] $TIME $BACKENDWEIGHT"
 							echo -e "\"$HOST_NAME\" pgpool.backend.role[${BACKEND}] $TIME $BACKENDROLE"
 						done
