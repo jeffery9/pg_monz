@@ -31,7 +31,7 @@ case "$APP_NAME" in
 						union all \
 						select '\"$HOST_NAME\"', 'psql.idle_tx_connections', $TIMESTAMP_QUERY, (select count(*) from pg_stat_activity where state = 'idle in transaction') \
 						union all \
-						select '\"$HOST_NAME\"', 'psql.locks_waiting', $TIMESTAMP_QUERY, (select count(*) from pg_stat_activity where waiting = 'true') \
+						select '\"$HOST_NAME\"', 'psql.locks_waiting', $TIMESTAMP_QUERY, (select count(*) from pg_stat_activity where wait_event is not null) \
 						union all \
 						select '\"$HOST_NAME\"', 'psql.server_maxcon', $TIMESTAMP_QUERY, (select setting::int from pg_settings where name = 'max_connections')" 2>&1
 					)
